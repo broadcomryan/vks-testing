@@ -1,0 +1,103 @@
+#! The FQDN for accessing the Harbor admin UI and Registry service.
+hostname: depot.kube-system.svc
+#! The network port of the Envoy service in Contour or another Ingress Controller.
+port:
+  https: 443
+
+#! Do not change tlsSecretLabels. This is required for VKS integration to work.
+tlsCertificate:
+  tlsSecretLabels: {"managed-by": "vmware-vRegistry"}
+
+enableNginxLoadBalancer: false
+enableContourHttpProxy: true
+
+# This should always be set to true for the Supervisor service.
+createNetworkPolicy: true
+
+#! [Required] The initial password for the Harbor admin.
+harborAdminPassword: HarborAdminSec2026!
+
+#! [Required] The secret key used for encryption. Must be a string of exactly 16 characters.
+secretKey: K9m#pL2$vX8qN4wZ
+
+database:
+  #! If an external database is used, set "type" to "external" 
+  #! and fill in the connection information in the "external" section.
+  type: internal
+  #! [Required] The initial password for the internal Postgres database.
+  password: DbSecretPass2026!
+
+core:
+  replicas: 1
+  #! [Required] This secret is used when the core server communicates with other components.
+  secret: CoreAuthToken2026!
+  #! [Required] The XSRF key. Must be a string of exactly 32 characters.
+  xsrfKey: A7k#mP9$vX2qN8wZ3eR6tY1uI4oP0sD5
+jobservice:
+  replicas: 1
+  #! [Required] This secret is used when the job service communicates with other components.
+  secret: JobAuthToken2026!
+registry:
+  replicas: 1
+  #! [Required] This secret is used to secure the upload state from the client
+  #! and the registry storage backend.
+  secret: RegAuthToken2026!
+
+#! Persistence is always enabled, and a default StorageClass
+#! is needed in the K8s cluster to provision volumes dynamically.
+persistence:
+  persistentVolumeClaim:
+    registry:
+      existingClaim: ""
+      storageClass: "vsan-default-storage-policy"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 10Gi
+    jobservice:
+      jobLog:
+        existingClaim: ""
+        storageClass: "vsan-default-storage-policy"
+        subPath: ""
+        accessMode: ReadWriteOnce
+        size: 1Gi
+    database:
+      existingClaim: ""
+      storageClass: "vsan-default-storage-policy"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 1Gi
+    redis:
+      existingClaim: ""
+      storageClass: "vsan-default-storage-policy"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 1Gi
+    trivy:
+      existingClaim: ""
+      storageClass: "vsan-default-storage-policy"
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 5Gi
+
+#! Metrics used by the core, registry, and exporter.
+metrics:
+  enabled: true
+  core:
+    path: /metrics
+    port: 8001
+  registry:
+    path: /metrics
+    port: 8001
+  exporter:
+    path: /metrics
+    port: 8001
+
+#! The default [] is equivalent to using both ["IPv4","IPv6"]. Alternatively, you can choose one.
+network:
+  ipFamilies:
+    - IPv4
+
+#! Cache layer configurations.
+cache:
+  enabled: false
+  expireHours: 24
