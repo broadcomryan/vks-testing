@@ -1,0 +1,186 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: argocd-service.vsphere.vmware.com.1.2.0-25642124
+  annotations:
+    supportbundler.vmware.com/manifest: argocd-support-bundle-cm
+    appplatform.vmware.com/compatibility-check_service: argocd-service-compatibility-api
+    appplatform.vmware.com/compatibility-check_port: "8082"
+    appplatform.vmware.com/compatibility-check_url: compatibility-check
+    appplatform.vmware.com/compatibility-check_protocol: HTTPS
+    appplatform.vmware.com/compatibility-check_method: POST
+    appplatform.vmware.com/compatibility-check_ca_secret: compatibility-api-cert
+    appplatform.vmware.com/compatibility-check_data: |
+      {
+        "argoCDServiceVersions": [
+          "1.1.0",
+          "1.2.0"
+        ],
+        "argoCDVersions": [
+          "3.0.*",
+          "3.1.*",
+          "3.2.*",
+          "3.3.*",
+          "3.4.*"
+        ]
+      }
+spec:
+  refName: argocd-service.vsphere.vmware.com
+  releasedAt: "2026-08-01T10:00:00Z"
+  template:
+    spec:
+      deploy:
+      - kapp: {}
+      fetch:
+      - imgpkgBundle:
+          image: projects.packages.broadcom.com/vsphere/supervisor/argocd-service/1.2.0/argocd-service:v1.2.0_vmware.1
+      template:
+      - ytt:
+          paths:
+          - config/sources
+          - config/overlays
+      - kbld:
+          paths:
+          - '-'
+          - .imgpkg/images.yml
+  valuesSchema:
+    openAPIv3:
+      type: object
+      additionalProperties: false
+      properties:
+        namespace:
+          type: string
+          description: argocd-service's namespace
+          default: argocd-service
+        bundleUrl:
+          type: string
+          description: package bundle URL for the argocd carvel package
+          default: ""
+        capabilities:
+          type: array
+          description: Array of capabilities passed by supervisor service framework
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              name:
+                type: string
+                default: ""
+              value:
+                type: boolean
+                default: false
+          default: []
+        keepCRDs:
+          type: boolean
+          description: Keep CRDs on uninstall
+          default: false
+        vcfaIntegrated:
+          type: boolean
+          description: Whether to run inside the VCFA-integrated environment
+          default: false
+        vcfaInsecureSkipVerify:
+          type: boolean
+          description: Skip TLS certificate verification when communicating with VCFA
+          default: false
+        vcfaTimeout:
+          type: integer
+          description: Timeout in seconds for VCFA API calls (0 means no timeout)
+          default: 30
+        vcfaReconcilePeriod:
+          type: integer
+          description: Period in seconds to reconcile ArgoCD CRs to detect VCFA changes (setting it to 0 to disable periodic reconciliation)
+          default: 300
+        logLevel:
+          type: string
+          description: Level to configure the verbosity of logging. Can be one of 'debug', 'info', 'error' or any integer value > 0 which corresponds to custom debug levels of increasing verbosity
+          default: info
+        managerResources:
+          type: object
+          additionalProperties: false
+          description: manager container resource request and limits setting
+          properties:
+            limits:
+              type: object
+              additionalProperties: false
+              properties:
+                cpu:
+                  type: string
+                  description: cpu limit for manager
+                  default: "1"
+                memory:
+                  type: string
+                  description: memory limit for manager
+                  default: 1024Mi
+                ephemeral-storage:
+                  type: string
+                  description: ephemeral-storage limit for manager
+                  default: ""
+            requests:
+              type: object
+              additionalProperties: false
+              description: resource requests for manager
+              properties:
+                cpu:
+                  type: string
+                  description: cpu request for manager
+                  default: 10m
+                memory:
+                  type: string
+                  description: memory request for manager
+                  default: 64Mi
+                ephemeral-storage:
+                  type: string
+                  description: ephemeral-storage request for manager
+                  default: ""
+        compatibilityApiResources:
+          type: object
+          additionalProperties: false
+          description: compatibility-api container resource request and limits setting
+          properties:
+            limits:
+              type: object
+              additionalProperties: false
+              properties:
+                cpu:
+                  type: string
+                  description: cpu limit for compatibility-api
+                  default: 100m
+                memory:
+                  type: string
+                  description: memory limit for compatibility-api
+                  default: 128Mi
+                ephemeral-storage:
+                  type: string
+                  description: ephemeral-storage limit for compatibility-api
+                  default: ""
+            requests:
+              type: object
+              additionalProperties: false
+              description: resource requests for compatibility-api
+              properties:
+                cpu:
+                  type: string
+                  description: cpu request for compatibility-api
+                  default: 5m
+                memory:
+                  type: string
+                  description: memory request for compatibility-api
+                  default: 32Mi
+                ephemeral-storage:
+                  type: string
+                  description: ephemeral-storage request for compatibility-api
+                  default: ""
+  version: 1.2.0-25642124
+---
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: PackageMetadata
+metadata:
+  creationTimestamp: null
+  name: argocd-service.vsphere.vmware.com
+spec:
+  displayName: ArgoCD Service
+  providerName: Broadcom
+  iconSVGBase64: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjkuMjggLTguMjggNjQgNjQiPjxnIGZpbGw9IiNmZWZlZmUiPjxwYXRoIGQ9Ik0zNy43NDUgNDMuNjIzYy4wMDUgMCAuMDEuMDE3LjAxLjA1bC4wMTcuNy4xMDUtLjUzNGMtLjAyOC0uMzM2LS4yOTItLjE2NS0uMTMyLS4yMDR6TTUyLjIgMjQuNzgyYy0uMDA1LjAwNS0uMDE3LjAwNS0uMDIyLjAxLjAwNS4wMDUuMDE3LjAxLjAyMi4wMTctLjAwNS0uMDA1IDAtLjAxNyAwLS4wMjh6Ii8+PHBhdGggZD0iTTQzLjA5NCAxLjY1NHoiLz48L2c+PHBhdGggZD0iTTUwLjgzNSA0OC4xMDJsLjEzMi0yLjQwMmMuMjItMS43NDYuMDEtMy41My40NjgtNS4yNTYuMjI2LS44OTItLjQ5Ni0xLjk0LjQzLTIuNzIybC0uMjMtLjc2Yy0uMjYtLjQzLS4xMjctLjg0OC4wMjgtMS4yNjctLjAxNy0xLjUzMiAwLTMuMDYzLjI3NS00LjU3OGwuMjUzLTYuMzJjLS4wMDUtLjAwNS0uMDE3LS4wMS0uMDIyLS4wMTctNC41IDIuMDY2LTguNzQzLS44MjYtOS40NjUtNC4yOTctLjQ3NC0yLjI4LS4yMi00LjQzNSAxLjU2LTYuMTc2LjI5Ny0uMjkyLjU1LS42MjguODI2LS45NDguNzI3LTQuMzYuMi04LjM2LTMuNTA0LTExLjQ3Ni41NTYtLjMyIDEuMDU4LS4xMzggMS41LS4yMi00LjU2LTEuMTUtMTAuMSAxLjk3NS0xMS45MzYgNi43NDctLjU1IDEuNDMyLS44NDggMi45LS43NTUgNC40NDYgNC41My0yLjEgOC42LjQwOCA5LjcwNyA0LjIyNiAxLjE2MiAzLjk3Mi0xLjkzNCA4LjE3Ni02LjA1IDguMjM2LTEuMi4wMTctMi4zNC0uMTgyLTMuNDc2LS41MThsLjI1MyA2LjU3OGMuMTYgMS40MzguMzMgMi44Ny4yNiA0LjMybC4wMzMgMS4wMjUtLjAzMy42ODNjLjMzNiAxLjM3Ny40MDggMi43OTMuNTEyIDQuMjA0YS43OC43OCAwIDAgMS0uMDIyLS4xMWMuMDA1LjA0LjAxNy4wNzIuMDIyLjFsLjM0NyA3LjE5NWMuMDcyLjk5Mi0uMjg2IDEuNDg3LTEuMiAxLjc0LTEuMDguMzAzLTIuMTQzLjY2Ny0zLjIxMiAxLjAwOCAxLjQzMi4xOTggMi44NDMuMjIgNC4yNTMuMTg3IDEuNTI2LS4wMzMgMi4yMi0uNyAyLjM3LTIuMjI2bC4yNjQtMi44OTIuMjk3LTUuMjQ1aC4yMTV2NC45ODZsLjA4OCAyLjI3Yy4yMiAzLjUyLjMyNSAzLjQ5OC0zLjE4NCA0LjItLjA4My4wMTctLjE1NC4wNjYtLjIzLjFsLjYyOC40MmMuMDY2LjAxNy4xMi4wNDQuMTU0LjEwNS44MzcuMDA1IDEuNjguMDc3IDIuNTA3IDAgMS41MDQtLjE0MyAyLjIxNS0uOTQ4IDIuMzI1LTIuNDQuMDY2LS45Ni4xNjUtMS45MTcuMjQ4LTIuODc2LS4xMzItMS4yNzMuMDYtMi41MjMuMjk3LTMuNzc0bC0uMDE3LS43YzAtLjAzMy0uMDEtLjA1NS0uMDEtLjA1LS4xNi4wNC4xMDUtLjEzMi4xMzIuMjA0bC4wODgtLjQ0NnY1Ljc3NGwuMDUgMi4wMjdjLjAyOCAyLjQ1Mi0uMTI3IDIuNjcyLTIuNDYzIDMuMzcyLS42NDUuMTkzLTEuMzE3LjMtMS45NTYuNTIzLS40NjMuMTYtMS4wNTIuMDcyLTEuNDg3LjYxNyAxLjktLjA3MiAzLjY4LjE0MyA1LjQ1LS4xNDMgMS44My0uMjk3IDIuNTU2LTEuMDM2IDIuOTMtMi44Mi4yNzUtMS4zLjQtMi42Ni44OTItNCAuMDcyLjE0My4xMjcuMi4xNDMuMjg2bC43NSAzLjcyNGMuMzQyIDEuNzM1IDEuMDQ3IDIuNDc0IDIuOCAyLjc4MiAxLjgyNC4zMTQgMy42Ny4xIDUuNTYuMTQzLS4yNy0uNDYzLS42OTQtLjM4Ni0xLjAzNi0uNDg1LTEuMTczLS4zNDItMi4zNy0uNjM0LTMuNTItMS4wMy0uODM3LS4yOTItMS40MzgtLjgyNi0xLjQyNy0xLjg1N2wuMDEtOC40NjJINDVsLjM1OCA1LjNjLjIxNSA0LjA4OC43IDQuNTM0IDQuODA0IDQuMzA4LjIzLS4zODYuOC0uMDgzIDEuMDE0LS40OTYtLjk4Ni0uMDA1LTEuODQ2LS40OC0yLjc1LS43ODItLjUwNy0uMTctLjc5My0uNjI4LS43ODItMS4yLjA0NC0yLjg5OC0uMDY2LTUuODA3LjMyNS04LjY5NGwuNjEyIDcuMjc4Yy4wODggMS4xMzUuNiAyLjAyMiAxLjggMi4xIDEuNi4xIDMuMjIzLjAyOCA0LjgzNy4wMjgtLjg1NC0uNDMtMS43My0uNjgzLTIuNi0uOTYtMS45NzItLjYzNC0xLjk2LS42NC0xLjc4LTIuNjQ0ek0zOC40MjggNi43NjdhMS40OCAxLjQ4IDAgMCAxLTEuNDY1IDEuNDY1Yy0uODY1LjAxNy0xLjUxNS0uNDgtMS41MzItMS42MDMuMDk0LS44MTUuNTUtMS4zNzIgMS41Mi0xLjM5NCAxLjAzLS4wMTcgMS40OTMuNjc4IDEuNDc2IDEuNTMyem02LjYyMiAyNC4wOTdjLjAwNSAyLjIzLTEuNzAyIDQuMTc2LTMuNjUzIDQuMTctMS44NC0uMDA1LTMuNzItMi4xNzYtMy42NTMtNC4yMjZsLS4zNDItMi4wNjZjMS4zMTcuODk4IDIuNDI0IDEuODE4IDMuOTA2IDEuODUgMS41MTUuMDI4IDIuNzA1LS43NSAzLjk0NS0xLjY1OC4yNjQuNzI3LS40MDIgMS4yOTUtLjIwNCAxLjkyOHoiIGZpbGw9IiNmZTczM2UiLz48cGF0aCBkPSJNMzEuMDk1IDM1LjdsLS4zMi0uMTI3Yy0xLjUtLjYxNy0yLjgxNS0xLjU2NS00LjAyNy0yLjYxNy00LjM3NC0zLjc4LTcuMjYtOC41MTItNy45Ni0xNC4yNTItLjc5My02LjUyMy42NjctMTIuNTQ1IDUuMDItMTcuNzE4IDMuOTcyLTQuNzE2IDkuMDM1LTcuNDY1IDE1LjA4LTguMSA2LjcxNi0uNyAxMi43NDggMS4xOCAxNy44MjggNS44MTggNC4yMzcgMy44NjcgNi43IDguNjYgNy4zNDQgMTQuMjk2LjU0IDQuOC0uMzI1IDkuNDM3LTIuNzkzIDEzLjY1Mi0yLjI0MiAzLjgzLTUuMjI4IDYuOTM2LTkuMjY3IDguOTAzbC0uMzMuMTZjLS4xNTQuNDItLjI5Mi44MzctLjAyOCAxLjI2Ny4wOTQtLjA4My4xNzYtLjE4Ny4yODYtLjI0OCA2LjEtMy4yMjggMTAuMzMtOC4wMjcgMTIuMzA4LTE0LjcwNC4xNy0uNTY3LjQzNS0uODQ4IDEuMDctLjc4Mi44Ni4wODggMS4xLS40ODUgMS4xLTEuMmwuMDA1LTguMjQyYzAtLjYtLjE0My0xLjI0LS43NTUtMS4zMDYtMS4xMjQtLjEzMi0xLjI2Mi0uOTUzLTEuNDg3LTEuNzUyQzYyLjgzNCA0LjEgNjAuMy4yMjIgNTYuNS0yLjc0OGMtNy43NjgtNi4xLTE2LjI5Ni03LjItMjUuMjQzLTMuMDhDMjQuNjE2LTIuNzcgMjAuMzggMi41MzYgMTguNDYzIDkuNjM3Yy0uMTIuNDQtLjA2Ni45NjQtLjgxNS44LTEuMDctLjIyLTEuNDcuNDA4LTEuNDc2IDEuMzU1bC0uMDA1IDguMjQyYzAgLjkxNS40NjMgMS40IDEuMzQ0IDEuMTg0LjgtLjE5OCAxLjAwMy4yMDQgMS4xNjguODIuNzE2IDIuNjMzIDEuOTEyIDUuMDQgMy41MyA3LjI0IDIuMzcgMy4yMTIgNS4yNTYgNS44IDguOTI1IDcuNDMybC0uMDQtMS4wM3oiIGZpbGw9IiNiNWQyZjMiLz48cGF0aCBkPSJNMzEuMSAzNy4zOThjLS44MTUgMi4yODYtMi45ODYgMi4yMy00LjgzMiAyLjgwNCAxLjM4OC4zNTggMi44Ljc3IDQuMTg3LjUzNC44MjYtLjE0My45ODYuMTU0IDEuMTA3LjY0NWwuMDI4LjExNi4wMjIuMWMtLjEwNS0xLjQxNi0uMTc2LTIuODI2LS41MTItNC4yeiIgZmlsbD0iI2ZlNjg0YiIvPjxwYXRoIGQ9Ik01MS40MzUgNDAuNDVjMS43NjMuOCAzLjQyNy0uMDA1IDUuMTMtLjIzNy0xLjY2NC0uNzA1LTMuODE4LS4zNDItNC42OTQtMi40ODUtLjkzLjc4Mi0uMiAxLjgzLS40MzUgMi43MjJ6IiBmaWxsPSIjZmU2NDQ2Ii8+PHBhdGggZD0iTTM3Ljk2NSA0My4zOGwtLjA4OC40NDYtLjEwNS41MzRjLS4yMzcgMS4yNS0uNDMgMi41LS4yOTcgMy43NzQuNDEzLjIxNS4xLjc4Mi41IDEuMDE0VjQzLjM4eiIgZmlsbD0iI2ZlZDZjOCIvPjxwYXRoIGQ9Ik0zNC43MyA0MS4zNjVsLS4yOTcgNS4yNDUuNTEyLS4yNnYtNC45ODZoLS4yMTV6IiBmaWxsPSIjZmVlYmUzIi8+PHBhdGggZD0iTTI5LjU1MyA1My40NTJoMi44NDNsLS4xNTQtLjEwNS0uNjI4LS40MmMtLjYyMy0uMDMzLTEuMjA3LjEwNS0yLjA2LjUyM3oiIGZpbGw9IiNmZTkxNjYiLz48cGF0aCBkPSJNNTAuMTY4IDUzLjQ1MmgyLjc2NmMtLjU2Mi0uMzI1LTEuMTEzLS42LTEuNzUyLS40OTYtLjIxNS40Mi0uNzg4LjEtMS4wMTQuNDk2eiIgZmlsbD0iI2ZlOGY2NCIvPjxwYXRoIGQ9Ik01Mi4wMDMgMzUuNTRjNC4wMzgtMS45NiA3LjAyLTUuMDY4IDkuMjY3LTguOTAzIDIuNDY4LTQuMjE1IDMuMzMzLTguODUzIDIuNzkzLTEzLjY1MkM2My40MyA3LjM0NSA2MC45NiAyLjU1MiA1Ni43Mi0xLjMgNTEuNjQtNS45NDMgNDUuNjA3LTcuODI3IDM4LjktNy4xMjJjLTYuMDM4LjYyOC0xMS4xMDcgMy4zODMtMTUuMDggOC4xQzE5LjQ1NCA2LjE1IDE4IDEyLjE3IDE4Ljc5MyAxOC42OTRjLjcgNS43NDYgMy41ODcgMTAuNDczIDcuOTYgMTQuMjUyIDEuMjE4IDEuMDUyIDIuNTIzIDIuMDA1IDQuMDI3IDIuNjE3LjEwNS4wNDQuMi4wODguMzIuMTI3LjA3Mi0xLjQ1LS4xLTIuODgtLjI2LTQuMzJsLS4zMy0uMjM3Yy0xLjExOC0uOC0yLjA3Ny0xLjgwNy0zLjA0LTIuNzg4LS4yOTItLjI5Ny0uNjU2LS41NS0uNjU2LTEuMDM2LS42NS40NjgtMS4xMTguMTQzLTEuNS0uMzc1LTIuMTE2LTIuODg3LTMuMzk0LTYuMDg4LTMuNTY0LTkuNy0uMTU0LTMuMTg0LjEzMi02LjI4IDEuNDctOS4yNiAxLjcwMi0zLjc4NSA0LjMyLTYuNjc3IDcuODM0LTguODI2LjU5NS0uMzY0LjkzNy0uMDQgMS4zNS4yMy40MDItLjA0Ljc2LS4xNzYgMS4wMi0uNTA3bC0uMDUtLjExNmMtLjM1My0uNzQ0LS4zNy0xLjU4Ny40OC0xLjc4NS44NTQtLjIwNCAxLjM0LjUgMS4zNDQgMS4zODhDNDEuNTcyLTMuNzI2IDQ3LjUtMi44NzcgNTIuODUgMS4yMDVjNCAzLjA1MiA2LjI5MiA3LjE0NSA3IDEyLjEzNy45MDQgNi40MTgtMS4yNjcgMTEuNzQtNS43NCAxNi4yNC0uNTMuNTMtMS4xMjQgMS4wMDgtMS43OTYgMS4zNjZhMTAuMDkgMTAuMDkgMCAwIDEtLjM0Ny4xNzFjLS4yNzUgMS41MTUtLjI5MiAzLjA0Ny0uMjc1IDQuNTc4bC4zMi0uMTZ6IiBmaWxsPSIjZTJmNWZjIi8+PHBhdGggZD0iTTU0LjEgMjkuNmM0LjQ2OC00LjUgNi42NC05LjgyMyA1Ljc0LTE2LjI0LS43LTQuOTk3LTIuOTkyLTkuMS03LTEyLjEzN0M0Ny41LTIuODcgNDEuNTU3LTMuNzEyIDM1LjItMS42MjRjLS4wMS4wMDUtLjAyMi4wMTctLjAzMy4wMjItLjUuMzItLjg5MiAxLjAwOC0xLjYxNC41NzgtLjA0NC0uMDI4LS4wODMtLjA1LS4xMjctLjA4My0uMjYuMzMtLjYxMi40NjgtMS4wMi41MDctLjAxNy4wNjYtLjA0LjEyNy0uMDYuMTkzLS40NTcgMS4yODQtMS44MyAxLjYyLTIuNzUgMi40LTIuNDk2IDIuMDg4LTQuMzQ3IDQuNi01LjQzOCA3LjYyLTEuNzUyIDQuODgtMS4zOTQgOS42NjMuOTUzIDE0LjI4LjM4Ljc1Ljg0OCAxLjQ2IDEuMzUgMi4xMzhhMS44IDEuOCAwIDAgMSAuMzUzIDEuMjg0YzAgLjQ5Ni4zNjQuNzU1LjY1NiAxLjA1Mi45Ny45OCAxLjkyMyAxLjk3OCAzLjA0IDIuNzg4bC4zMy4yMzctLjI1My02LjU3OGMtMS45MTctMS4yNTYtMy4zMTctMi44NTQtMy41Ni01LjIzNC0uMzAzLTIuOTM2LjkzLTUuMTA3IDMuMzMzLTYuNjg4LjAxLS4wMDUuMDIyLS4wMTcuMDMzLS4wMjItLjA5NC0xLjU0My4yMDQtMy4wMi43NTUtNC40NDZDMzIuOTc0IDMuNjUgMzguNTE2LjUyIDQzLjA4MyAxLjY2NWMzLjA0Ny40OTYgNS41MzcgMS44OCA3LjMyMiA0LjQxOCAxLjQyNyAyLjAzMyAyLjE2NSA0LjI3NSAyIDYuNzc2IDEuNzIgMS4zMDYgMy4xMDcgMi44MzcgMy4zMzMgNS4xMDIuMzAzIDMuMDQ3LS45OTcgNS4yNzItMy41NiA2LjgyNnYuMDI4bC0uMjUzIDYuMzJjLjEyLS4wNTUuMjM3LS4xLjM0Ny0uMTcuNjgzLS4zNTggMS4yNzgtLjgzNyAxLjgwNy0xLjM3MnoiIGZpbGw9IiNjZGVjZjYiLz48cGF0aCBkPSJNNDYuNjcgMTIuNjEyYzEuOS0uOTMgMy43MjQtLjQzIDUuNTQ4LjE3bC4yMDQuMDY2Yy4xNTQtMi41MDctLjU4NC00Ljc1LTItNi43NzYtMS43ODUtMi41NC00LjI3NS0zLjkyMy03LjMwNS00LjQxMy0uNDY4LjA4OC0uOTctLjEtMS41MjYuMjIgMy43MjQgMy4xMTggNC4yMzcgNy4xMTggMy41MDQgMTEuNDc2bDEuNTg3LS43NDR6IiBmaWxsPSIjZmU2YjNjIi8+PHBhdGggZD0iTTU1Ljc2IDE3Ljk1NmMtLjIyNi0yLjI2NC0xLjYxNC0zLjc5Ni0zLjMzMy01LjEwMmwtLjIwNC0uMDY2Yy0xLjgzLS42LTMuNjU4LTEuMTAyLTUuNTQ4LS4xN2wtMS4yNC42LS4zNDIuMTYtLjgyNi45NDhjLTEuNzg1IDEuNzQtMi4wMzMgMy44OTUtMS41NiA2LjE3Ni43MjIgMy40NzYgNC45NjQgNi4zNyA5LjQ3IDQuMzA4LjAwNS0uMDA1LjAxNy0uMDA1LjAyMi0uMDEgMi41NjItMS41NiAzLjg2Ny0zLjggMy41Ni02Ljgzem0tNi43MzggNi4wODhjLTIuOTI1LS4wMjItNS4yMDYtMi4zNDctNS4xOC01LjI4My4wMjgtMi44OTIgMi40LTUuMTg0IDUuMzA1LTUuMTYyIDIuOTMuMDIyIDUuMTczIDIuMzMgNS4xNSA1LjI5NC0uMDIyIDIuOTQyLTIuMzE0IDUuMTgtNS4yNzggNS4xNXoiIGZpbGw9IiNmZTYxNDIiLz48cGF0aCBkPSJNMzAuMzU3IDEyLjg3Yy0yLjQwMiAxLjU4LTMuNjM2IDMuNzUyLTMuMzMzIDYuNjg4LjI0MiAyLjM4IDEuNjQyIDMuOTc4IDMuNTQ4IDUuMjI4IDEuMTQ2LjM0MiAyLjI4LjU0IDMuNDg3LjUyMyA0LjEtLjA2IDcuMjEyLTQuMjYgNi4wNS04LjIzNi0xLjEtMy44MTYtNS4xODUtNi4zMjMtOS43LTQuMjIzLS4wMjIuMDA1LS4wMzMuMDE3LS4wNDQuMDIyem0zLjI4NCAxMS4xNzNjLTMuMDAzLjAxLTUuMzI3LTIuMjkyLTUuMzE2LTUuMjc4LjAwNS0yLjkzIDIuMjkyLTUuMiA1LjI0LTUuMjE3IDIuOTgtLjAxNyA1LjM2IDIuMzMgNS4zNSA1LjI2LS4wMSAyLjg4LTIuMzc0IDUuMjIzLTUuMjcyIDUuMjM0eiIgZmlsbD0iI2ZlNjE0MyIvPjxwYXRoIGQ9Ik0zOC40NCAzMS4yOTRjLS4yMDQtLjIwNC0uMzUzLS40OC0uNjk0LS40ODUtLjA2NiAyLjA1IDEuODA3IDQuMjIgMy42NTMgNC4yMjYgMS45NTYuMDA1IDMuNjU4LTEuOTQgMy42NTMtNC4xNy0uNzM4LjM4LTEuMjA3IDEuMTYyLTIuMDU1IDEuMzk0LTEuNy40NjMtMy4yNDUuMzQ3LTQuNTU2LS45NjR6IiBmaWxsPSIjMDcwOTA5Ii8+PHBhdGggZD0iTTQ1LjI1NCAyOC45MzZjLTEuMjQuOS0yLjQyNCAxLjY4Ni0zLjk0NSAxLjY1OC0xLjQ4Ny0uMDI4LTIuNi0uOTUzLTMuOTA2LTEuODVsLjM0MiAyLjA2NmMuMzQyLjAxLjUuMjguNjk0LjQ4NSAxLjMwNiAxLjMgMi44NjUgMS40MjcgNC41NTYuOTY0Ljg0OC0uMjMgMS4zMTctMS4wMDggMi4wNTUtMS4zOTQtLjE5OC0uNjM0LjQ2OC0xLjIuMjA0LTEuOTI4eiIgZmlsbD0iI2ZkZmNmYiIvPjxwYXRoIGQ9Ik0zNi45NTIgNS4yNGMtLjk3NS4wMTctMS40MzIuNTczLTEuNTIgMS4zOTQuMDE3IDEuMTI0LjY2NyAxLjYxNCAxLjUzMiAxLjYwM2ExLjQ4IDEuNDggMCAwIDAgMS40NjUtMS40NjVjLjAxNy0uODYtLjQ0Ni0xLjU1NC0xLjQ3Ni0xLjUzMnoiIGZpbGw9IiNmZWE3NzciLz48cGF0aCBkPSJNMjYuODA0IDI3LjNhMS44IDEuOCAwIDAgMC0uMzUzLTEuMjg0Yy0uNDk2LS42NzgtLjk3LTEuMzg4LTEuMzUtMi4xMzgtMi4zNDctNC42MTctMi43LTkuNC0uOTUzLTE0LjI4IDEuMS0zLjAzIDIuOTQyLTUuNTMgNS40MzgtNy42Mi45Mi0uNzcgMi4yOTItMS4xMDIgMi43NS0yLjQuMDIyLS4wNi4wNDQtLjEyNy4wNi0uMTkzLS40MTMtLjI3LS43NTUtLjU5NS0xLjM1LS4yMy0zLjUxNSAyLjE1LTYuMTMyIDUuMDQtNy44MzQgOC44MjYtMS4zNCAyLjk4LTEuNjI1IDYuMDc3LTEuNDcgOS4yNi4xNzYgMy41OTggMS40NSA2LjgwNCAzLjU2NCA5LjcuMzguNTE4Ljg1NC44NDMgMS41LjM3NXoiIGZpbGw9IiNmZGZlZmUiLz48cGF0aCBkPSJNMzUuMTUtMS42MDJjLjAxLS4wMDUuMDIyLS4wMTcuMDMzLS4wMjItLjAxLS44OTgtLjUtMS41OTItMS4zNDQtMS4zODhzLS44MzIgMS4wNDctLjQ4IDEuNzg1bC4wNS4xMTZhMS4zNiAxLjM2IDAgMCAwIC4xMjcuMDgzYy43MjIuNDM1IDEuMTEzLS4yNiAxLjYxNC0uNTczeiIgZmlsbD0iI2ZiZmRmZSIvPjxwYXRoIGQ9Ik01NC4zIDE4Ljg5OGMuMDIyLTIuOTU4LTIuMjItNS4yNjctNS4xNS01LjI5NC0yLjkyLS4wMjItNS4yNzggMi4yNy01LjMwNSA1LjE2MmE1LjE4IDUuMTggMCAwIDAgNS4xNzkgNS4yODNjMi45NjQuMDIyIDUuMjU2LTIuMjE1IDUuMjc4LTUuMTV6bS01LjAyLjU3M2MtLjk5Mi4wMTctMS41Ny0uNTQ1LTEuNjU4LTEuNTItLjA4My0uOS43MzMtMS43NTcgMS42MzYtMS42OTcuOTcuMDcyIDEuNTE1LjY0IDEuNjMgMS42NTMtLjEzMi45MDQtLjU5NSAxLjU0OC0xLjYgMS41NjV6bS0xNS43MTctNS45MTdjLTIuOTQ3LjAxNy01LjIyOCAyLjI4Ni01LjI0IDUuMjE3LS4wMDUgMi45ODYgMi4zMTQgNS4zIDUuMzE2IDUuMjc4IDIuODk4LS4wMSA1LjI2LTIuMzUyIDUuMjcyLTUuMjI4LjAwNS0yLjkzNi0yLjM3NC01LjI4My01LjM1LTUuMjY3em0uMDA1IDUuOTE3Yy0uOTguMDEtMS41Ny0uNTUtMS42NDctMS41MzctLjA3Mi0uOS43NS0xLjc1MiAxLjY1OC0xLjY3NS45Ni4wODMgMS41Mi42NCAxLjYgMS42NTMtLjEyLjkzLS42MjggMS41NDgtMS42MiAxLjU2eiIgZmlsbD0iI2ZlZmVmZSIvPjxwYXRoIGQ9Ik00OS4yNiAxNi4yNTRjLS45MDQtLjA2Ni0xLjcyLjc4Mi0xLjYzNiAxLjY5Ny4wODguOTguNjY3IDEuNTM3IDEuNjU4IDEuNTIgMS4wMDgtLjAxNyAxLjQ3Ni0uNjYgMS42LTEuNTY1LS4xMTYtMS4wMTQtLjY2LTEuNTgtMS42My0xLjY1M3oiIGZpbGw9IiMwOTBiMGIiLz48cGF0aCBkPSJNMzMuNTggMTYuMjZjLS45LS4wNzctMS43My43NjYtMS42NTggMS42NzUuMDc3Ljk4Ni42NjcgMS41NDggMS42NDcgMS41MzcuOTkyLS4wMSAxLjUtLjYyOCAxLjYyLTEuNTYtLjA5NC0xLjAyLS42NTYtMS41NzYtMS42LTEuNjUzeiIgZmlsbD0iIzA5MGMwYyIvPjwvc3ZnPg==
+  longDescription: This service allows users to self-service ArgoCD instance in different namespaces.
+  shortDescription: This service allows users to self-service ArgoCD instance in different namespaces.
