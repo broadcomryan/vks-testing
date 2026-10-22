@@ -1,55 +1,67 @@
 #! The FQDN for accessing the Harbor admin UI and Registry service.
-hostname: harbor.vcf.lab
-
+hostname: depot.kube-system.svc
 #! The network port of the Envoy service in Contour or another Ingress Controller.
 port:
   https: 443
 
-#! TLS Certificate configuration for custom certificate (base64 inline strings)
+#! Do not change tlsSecretLabels. This is required for VKS integration to work.
 tlsCertificate:
   tlsSecretLabels: {"managed-by": "vmware-vRegistry"}
-  tls.crt: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURpakNDQW5LZ0F3SUJBZ0lVZjZLUnNyeUk4bUZYajFiQnNuNjUxSWlVL1NVd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1lERUxNQWtHQTFVRUJoTUNWVk14RGpBTUJnTlZCQWdNQlZOMFlYUmxNUTB3Q3dZRFZRUUhEQVJEYVhSNQpNUXd3Q2dZRFZRUUtEQU5NWVdJeEN6QUpCZ05WQkFzTUFrbFVNUmN3RlFZRFZRUUREQTVvWVhKaWIzSXVkbU5tCkxteGhZakFlRncweU5qRXdNakl4TlRNd05UWmFGdzB5TnpFd01qSXhOVE13TlRaYU1HQXhDekFKQmdOVkJBWVQKQWxWVE1RNHdEQVlEVlFRSURBVlRkR0YwWlRFTk1Bc0dBMVVFQnd3RVEybDBlVEVNTUFvR0ExVUVDZ3dEVEdGaQpNUXN3Q1FZRFZRUUxEQUpKVkRFWE1CVUdBMVVFQXd3T2FHRnlZbTl5TG5aalppNXNZV0l3Z2dFaU1BMEdDU3FHClNJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUURqZ25OalN1U2hwK1BnTGJvWkdGVDdtRGZITURVY2hKa2EKQ3JxazhNUkFKNHlLYS9ab3lKNFBRNlg3MFdQSHVHM2ZqRG1kUER2RTA3SXdGZWt2NWZLcUNRbWVmakI3RldmRQowUU85VG15TE5CL1pLUFJxSUVrdUNMOUcyb0lEMDZGRjZEUG5rUjdHMjhrRVJiTzlDaEpFUi96ZEM1eFlpUkZLCnpKREdvbVRBK3Y1eS9rb21vK2dQakZsenN6bDN1ZlAraTEyeFNoMjFhK0pKYjY0T3kwT3BWQ2dNSFoxd3JUSG8KeFpZNGlNWmNXR2pxVXdxVVlRTVJNaFk4bkdQVmlQN212NFZXSSs4Q0hFY0t6MHlqcWVwVXZnUk1qQ2tTVm9vSgpaQmJlbUlqa0lSWVUxMVVta0VZWVJseUc1MzFiVW1JaDdXd3dzOU4zVXp1NUd6U2o4VnJYQWdNQkFBR2pQREE2Ck1Ca0dBMVVkRVFRU01CQ0NEbWhoY21KdmNpNTJZMll1YkdGaU1CMEdBMVVkRGdRV0JCUVJ5QnFIYW1IUkQzMEgKK01jNXBMSHJ2enpXK2pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQWR2RUp0Q213MXozaStsTkhucU03UWRMdApYMjlxQ0tXdFhRRGN5Nmx6M1drM2VDMzIzaDJXWGVXYWVaTDArZitmRThjZzhmWlVSVE1nVTRodlM1RW5ablJyCnFaajFwNGxEWjUxZ0lJMUhzVlhQVGhpcFQ3VzluYUt2YmJINFJaY1VBUC9Cb3FqZXNQNFRPc1ZncVFvaU1TdnMKUlVvT1IxQzZVZ1hZZk5TZDZUemZWRTFwcUFZT2l5Wi9BbzV2ZWxzOUJVVEJ2cW0vQmlwWEd6NC80dHhYWFlONApnZGt1b0N6eVI4d2JNeGRWZGkzaWN2UzdxUnM1eHFBVFlnVFlzNkROSUpBaWRQQnhpSDE4R0hHYUxsVDMzWGJhClRkVEh5bVcxSnl6czg3YVVObklzOXBKVXBhQWhVSjlnUm94aFhqL3JSY3NRQ3hYaFRUbk5UcXg3K0dVT093PT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
-  tls.key: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRRGpnbk5qU3VTaHArUGcKTGJvWkdGVDdtRGZITURVY2hKa2FDcnFrOE1SQUo0eUthL1pveUo0UFE2WDcwV1BIdUczZmpEbWRQRHZFMDdJdwpGZWt2NWZLcUNRbWVmakI3RldmRTBRTzlUbXlMTkIvWktQUnFJRWt1Q0w5RzJvSUQwNkZGNkRQbmtSN0cyOGtFClJiTzlDaEpFUi96ZEM1eFlpUkZLekpER29tVEErdjV5L2tvbW8rZ1BqRmx6c3psM3VmUCtpMTJ4U2gyMWErSkoKYjY0T3kwT3BWQ2dNSFoxd3JUSG94Wlk0aU1aY1dHanFVd3FVWVFNUk1oWThuR1BWaVA3bXY0VldJKzhDSEVjSwp6MHlqcWVwVXZnUk1qQ2tTVm9vSlpCYmVtSWprSVJZVTExVW1rRVlZUmx5RzUzMWJVbUloN1d3d3M5TjNVenU1Ckd6U2o4VnJYQWdNQkFBRUNnZ0VBRFFYeEkveHNCUUx1ek96aEs4R1VUOGloWE1JYU1EVTQ3R0F6MmZBOFU2M1AKNGphVzV0MmhDcCtsTnpwL3V6V0grSlYyME5UYldRT0RQalJxNGthSDh3ck1aYW0wamI4bWJ3SkY5QWF5dU84MQphWUZxS0U4TDBWcEgxTDc2VlV5K2ZSbHpLeXpIOWJzc0VSWUtXV1pqc0V2c29oeWhpUUhqbndRQnY1VVpMbUMwCkhHYkR5WDl6WXBjY0dvcTlYZFJOVDRLcUFRYnloek5wWHMyQ0ZWVm1CY0dkeWowUkY3Y2QwL0dJTHNhZDdUMEEKNFhZZmNxZTBIRTRIdWJhQ3JNRU1JeHF4WFBFeHJCVGVVaTdFSWhpVVdPY0xISG5LdmZRaG80UWpiRmNNTm5RYgpQTjVUOTVXL0FxWFRLMkk2Qkd1QU9odWJ2QjNwUGZkWHdwL1hLWm9kclFLQmdRRDdCN3VRanJiZzlaTmVlcmp2CjA5TWt6YXFHZGl3SlNxbGN1UDExcjhKWm9qNjBDaTRUWjd6N2ZrRWNKNlZJbFh1MGFQemtMbTVpQllGd1lPMTkKUmVRVUw1RklmN1NqeUFQZzNSMEhkQWJIN25FZFliMU9nRTNTZHJHUE16NzlwL3htSklPSnhHTjZSaGk4Y2ZRSAplc2ZYVW5KdDRveWVOaTlGTHhtL0gxb1p4UUtCZ1FEb0E0TGJiQm1ZbGNKWGJUTTBuaWh5TVljOTBOYUc2WjcyCjA3UlJXNDVNUDJmcTBud29idkVoZnlLbHBtRnlodlh5RHoxMEdwbm1WNWpERlFXMWNlQnQwOEFaL2dKNmRzSGcKMWRVTkFCZ1EvL0xrc3JqTU1IWGNFaThKYlkrZXQ1bkY0U083SmdIbXR1Mkc0eVN6c1NYUGxwMDU1YUoxUEx1MgpRb1NoTWU4WDZ3S0JnUUNkbGJRY1FrcnhtNWdncGwrMFJrQjFDUnIwZi9pUytLaXJDWUlyUCtOOGkwcGJrVXh0CmFDRU5xNnRKOW1WZTFHQXMxLzl4YXVobVpsaGthS1NOa0xObUxKcENiZEREUkF1VFBKczlrNHV5TkxBVHBzakYKSCt3Nm84SkJTQVZTRFFONFI1Ry9pV1o5V3NXcWZzcVhhMjlLYjNwZ0d1ajFaTVIxNU9SL3d6bTNsUUtCZ0E3aApJc1JGczRLSW9EVVJLTWFJR2hud3VUYXFyUWRyOWlqb1BOazI0UEpjNHFJNXE0TEFVckNPUWIrVDR3NEFQOGV0CldJaVlxQ1FRbkJodXdiWDRQcWRzZkJadXB1UUp0N2RlbjFJOUhrNEF6Q2dFbWp0bUpEamY1YXBhSDJyVFpZWSsKUVJkZ2dhQzFQSmg0K3NLWGF0QmNYV3I0SWlvWW9nVTNVT0F4bnA3UEFvR0FZWXcyUWh4SHF6UnNYbWxJU3N5Zwp5S3dtMUkrYXVqMjV5QlNVVGh6WmcwamV5YXM3U0NENk15YVhlWi9uajQybnpFYUVaYXU4WHZ6Vk5aeHpEd1JiCmc1RjU4anpqY3RBMEdWeVhnS2R4RFZSeHlqektrYkJNK2pEWTRaNmZGVDVuKzgxS1FQNGNFL0JZSzVKU29DcngKN2EwMW9XZVE3VmNVU3BZcjF1ZEJIbzQ9Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K"
 
-enableNginxLoadBalancer: false
-enableContourHttpProxy: true
+
+enableNginxLoadBalancer: true
+enableContourHttpProxy: false
 
 # This should always be set to true for the Supervisor service.
 createNetworkPolicy: true
 
 #! [Required] The initial password for the Harbor admin.
-harborAdminPassword: HarborAdminSec2026!
+harborAdminPassword: Harbor12345
 
-#! [Required] The secret key used for encryption. Must be a string of exactly 16 characters.
-secretKey: K9m#pL2$vX8qN4wZ
+#! [Required] The secret key used for encryption. Must be a string of 16 characters.
+secretKey: 0123456789ABCDEF
 
 database:
+  #! If an external database is used, set "type" to "external" 
+  #! and fill in the connection information in the "external" section.
   type: internal
   #! [Required] The initial password for the internal Postgres database.
-  password: DbSecretPass2026!
+  #! If an external database is used, please fill in external.password.
+  password: change-it
 
 core:
   replicas: 1
   #! [Required] This secret is used when the core server communicates with other components.
-  secret: CoreAuthToken2026!
-  #! [Required] The XSRF key. Must be a string of exactly 32 characters.
-  xsrfKey: A7k#mP9$vX2qN8wZ3eR6tY1uI4oP0sD5
+  secret: change-it
+  #! [Required] The XSRF key. Must be a string of 32 characters.
+  xsrfKey: 0123456789ABCDEF0123456789ABCDEF
 jobservice:
   replicas: 1
   #! [Required] This secret is used when the job service communicates with other components.
-  secret: JobAuthToken2026!
+  secret: change-it
 registry:
   replicas: 1
   #! [Required] This secret is used to secure the upload state from the client
   #! and the registry storage backend.
-  secret: RegAuthToken2026!
+  #! See: https://github.com/docker/distribution/blob/master/docs/configuration.md#http
+  secret: change-it
 
 #! Persistence is always enabled, and a default StorageClass
 #! is needed in the K8s cluster to provision volumes dynamically.
+#! Specify another StorageClass in "storageClass" or set "existingClaim"
+#! if you already have existing persistent volumes to use.
+#!
+#! For storing images and charts, you can also use "azure", "gcs", "s3",
+#! "swift", or "oss". Set this in the "imageChartStorage" section.
 persistence:
   persistentVolumeClaim:
     registry:
+      #! Use an existing PVC (which must be created manually before binding)
+      #! and specify the "subPath" if the PVC is shared with other components.
       existingClaim: ""
+      #! Specify the "storageClass" used to provision the volume. Otherwise, the
+      #! default StorageClass will be used.
+      #! Set it to "-" to disable dynamic provisioning.
       storageClass: "vsan-default-storage-policy"
       subPath: ""
       accessMode: ReadWriteOnce
@@ -79,7 +91,7 @@ persistence:
       subPath: ""
       accessMode: ReadWriteOnce
       size: 5Gi
-
+  
 #! Metrics used by the core, registry, and exporter.
 metrics:
   enabled: true
@@ -95,10 +107,14 @@ metrics:
 
 #! The default [] is equivalent to using both ["IPv4","IPv6"]. Alternatively, you can choose one.
 network:
-  ipFamilies:
-    - IPv4
+  ipFamilies: ["IPv4"]
 
 #! Cache layer configurations.
+#! If this feature is enabled, Harbor will cache the following resources in Redis:
+#! `project/project_metadata/repository/artifact/manifest`.
+#! This helps improve performance for high-concurrent manifest pulling.
 cache:
+  #! Disabled by default.
   enabled: false
+  #! The cache is kept for one day by default.
   expireHours: 24
