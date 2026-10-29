@@ -59,4 +59,5 @@ if [[ "$ADD_GUEST" =~ ^[Yy]$ ]]; then
       
     echo "-> Context added. You are now securely connected to ${CLUSTER_NAME}."
 else
-    echo "-> Setup complete. You are connected to
+    echo "-> Setup complete. You are connected to the Supervisor."
+fi
