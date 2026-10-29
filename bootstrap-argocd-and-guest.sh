@@ -2,7 +2,7 @@
 set -e
 
 VSPHERE_NAMESPACE="dev"
-GUEST_CONTEXT_NAME="dev-context" # Ensure this matches your kubeconfig context name
+GUEST_CONTEXT_NAME="dev-context:dev" # Ensure this matches your kubeconfig context name
 
 # Run 'kubectl get argocdversion' on your Supervisor to verify this string
 ARGOCD_VERSION="3.4.4+vmware.1-vks.1" 
