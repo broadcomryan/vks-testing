@@ -37,10 +37,18 @@ vcf context create "${SUP_CONTEXT}" \
 # ADD THIS LINE to set the current context explicitly
 kubectl config use-context "${SUP_CONTEXT}"
 
-echo "-> Extracting cluster certificate..."
-kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > "$(pwd)/supervisor-ca.crt"
-echo "-> Certificate saved to $(pwd)/supervisor-ca.crt"
+echo "-> Downloading cluster certificate directly from Supervisor..."
 
+# Use OpenSSL to download the root certificate chain directly from the endpoint
+echo -n | openssl s_client -connect "${ENDPOINT}:443" -showcerts 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > "$(pwd)/supervisor-ca.crt"
+
+# Verify the file is not empty before continuing
+if [ ! -s "$(pwd)/supervisor-ca.crt" ]; then
+    echo "Error: Certificate extraction failed. The file is empty."
+    exit 1
+fi
+
+echo "-> Certificate saved to $(pwd)/supervisor-ca.crt"
 echo ""
 echo "================================================="
 echo " Guest Cluster Context (Optional)"
