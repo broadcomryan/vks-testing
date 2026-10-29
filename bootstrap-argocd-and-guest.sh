@@ -55,6 +55,19 @@ done
 echo ""
 echo "-> Argo CD is successfully running at: https://${ARGOCD_IP}"
 
+# ==========================================
+# ADD THESE NEW WAIT LOOPS HERE
+# ==========================================
+echo "-> Waiting for the Argo CD admin secret to be generated..."
+while ! kubectl get secret argocd-initial-admin-secret -n ${VSPHERE_NAMESPACE} &>/dev/null; do
+    sleep 5
+    echo -n "."
+done
+echo " Secret generated!"
+
+echo "-> Waiting for Argo CD server to come online..."
+kubectl wait --for=condition=available deployment/argocd-server -n ${VSPHERE_NAMESPACE} --timeout=300s
+
 echo ""
 echo "================================================="
 echo " 3. Authenticating and Registering Cluster"
