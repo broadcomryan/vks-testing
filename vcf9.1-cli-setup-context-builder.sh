@@ -34,6 +34,9 @@ vcf context create "${SUP_CONTEXT}" \
   --username "${USERNAME}" \
   --insecure-skip-tls-verify
 
+# ADD THIS LINE to set the current context explicitly
+kubectl config use-context "${SUP_CONTEXT}"
+
 echo "-> Extracting cluster certificate..."
 kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[0].cluster.certificate-authority-data}' | base64 -d > "$(pwd)/supervisor-ca.crt"
 echo "-> Certificate saved to $(pwd)/supervisor-ca.crt"
