@@ -5,7 +5,7 @@ VSPHERE_NAMESPACE="dev"
 GUEST_CONTEXT_NAME="dev-context" # Ensure this matches your kubeconfig context name
 
 # Run 'kubectl get argocdversion' on your Supervisor to verify this string
-ARGOCD_VERSION="3.0.19+vmware.1-vks.1" 
+ARGOCD_VERSION="3.4.4+vmware.1-vks.1" 
 
 echo "================================================="
 echo " 1. Installing Argo CD CLI"
