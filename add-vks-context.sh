@@ -43,8 +43,7 @@ echo "-> The VCF CLI will now securely prompt for your password:"
 vcf context create "${CONTEXT_NAME}" \
   --endpoint "${SUPERVISOR_IP}" \
   --username "${USERNAME}" \
-  --insecure-skip-tls-verify \
-  #--ca-certificate "${CERT_FILE}" \
+  --ca-certificate "${CERT_FILE}" \
   --workload-cluster-namespace "${VSPHERE_NAMESPACE}" \
   --workload-cluster-name "${VKS_CLUSTER_NAME}"
 
