@@ -80,7 +80,6 @@ argocd login ${ARGOCD_IP} --username admin --password "${ARGOCD_PASSWORD}" --ins
 
 echo "-> Adding the '${GUEST_CONTEXT_NAME}' cluster to Argo CD..."
 argocd cluster add ${GUEST_CONTEXT_NAME} \
-  --namespace ${VSPHERE_NAMESPACE} \
   --name dev \
   --yes
 
