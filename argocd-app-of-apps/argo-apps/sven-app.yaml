@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: argocd-app-of-apps/clusters/sven        # Directory containing olaf-cluster.yaml
   destination:
-    name: argocd-instance
+    server: https://10.150.4.14:6443
     namespace: sven            # Target vSphere namespace for this cluster
   syncPolicy:
     automated:
