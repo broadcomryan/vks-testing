@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/broadcomryan/vks-testing.git
-    path: argocd-app-of-apps
+    path: argocd-app-of-apps/argo-apps
     targetRevision: main
   destination:
     name: argocd-instance
