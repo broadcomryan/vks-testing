@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: olaf
-  namespace: argocd-instance # Where Argo CD is running
 spec:
   project: default
   source:
