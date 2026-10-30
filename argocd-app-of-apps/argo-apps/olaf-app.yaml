@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: argocd-app-of-apps/clusters/olaf        # Directory containing olaf-cluster.yaml
   destination:
-    server: argocd-instance
+    name: argocd-instance
     namespace: olaf            # Target vSphere namespace for this cluster
   syncPolicy:
     automated:
