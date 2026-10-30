@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boostrap-app
+  namespace: argocd-instance
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/broadcomryan/vks-testing.git
+    path: argo-apps
+    targetRevision: main
+    directory:
+      recurse: true
+  destination:
+    name: argocd-instance
+    namespace: argocd-instance
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
