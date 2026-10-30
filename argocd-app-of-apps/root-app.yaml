@@ -12,7 +12,7 @@ spec:
     directory:
       recurse: true
   destination:
-    name: https://10.150.4.14:6443
+    server: https://10.150.4.14:6443
     namespace: argocd-instance
   syncPolicy:
     automated:
