@@ -12,7 +12,7 @@ spec:
     directory:
       recurse: true
   destination:
-    name: https://kubernetes.default.svc
+    name: argocd-instance
     namespace: argocd-instance
   syncPolicy:
     automated:
