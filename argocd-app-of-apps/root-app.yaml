@@ -9,8 +9,6 @@ spec:
     repoURL: https://github.com/broadcomryan/vks-testing.git
     path: argocd-app-of-apps
     targetRevision: main
-    directory:
-      recurse: true
   destination:
     server: https://10.150.4.14:6443
     namespace: argocd-instance
