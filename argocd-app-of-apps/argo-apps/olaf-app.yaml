@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: olaf
+  namespace: argocd-instance # Where Argo CD is running
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/broadcomryan/vks-testing.git
+    targetRevision: HEAD
+    path: clusters/olaf        # Directory containing olaf-cluster.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: olaf            # Target vSphere namespace for this cluster
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
