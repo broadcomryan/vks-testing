@@ -10,7 +10,7 @@ spec:
     path: argocd-app-of-apps
     targetRevision: main
   destination:
-    server: https://10.150.4.14:6443
+    name: argocd-instance
     namespace: argocd-instance
   syncPolicy:
     automated:
